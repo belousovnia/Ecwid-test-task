@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+
+import { Head } from './components/Head';
+import { Main } from './components/Main';
 
 function App() {
+  
+  const requstImageURL = 'https://don16obqbay2c.cloudfront.net/frontend-test-task/gallery-images.json';
+  
+  const getImages = new XMLHttpRequest();
+  getImages.open('GET', requstImageURL, false);
+  getImages.send();
+  const initionImages = JSON.parse(getImages.response);
+
+  const [count, setCount] = useState(initionImages['galleryImages']);
+  
+  function JSONImagesPars(JSONImages) {
+    let arrayImage = [];
+    for (const key in JSONImages) {
+      let URLimage =  JSONImages[key]; 
+      arrayImage.push(URLimage['url']); 
+    }
+    return arrayImage
+  }
+
+  console.log(JSONImagesPars(count))
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <>
+    <Head/>
+    <Main count={count} JSONImagesPars={JSONImagesPars}/>
+  </>
   );
 }
 
