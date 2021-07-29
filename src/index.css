@@ -38,8 +38,12 @@ code {
 }
 
 .imageTile{
+  width: auto;
   height: 100%;
+  margin: 10px;
+}
 
-  height: auto;
-  margin-left: 10px;
+.line{
+  width: auto;
+  height: 180px;
 }

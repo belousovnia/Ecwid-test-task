@@ -12,23 +12,23 @@ function App() {
   getImages.send();
   const initionImages = JSON.parse(getImages.response);
 
-  const [count, setCount] = useState(initionImages['galleryImages']);
-  
   function JSONImagesPars(JSONImages) {
-    let arrayImage = [];
-    for (const key in JSONImages) {
-      let URLimage =  JSONImages[key]; 
-      arrayImage.push(URLimage['url']); 
+      let arrayImage = [];
+      for (const key in JSONImages) {
+        let URLimage =  JSONImages[key]; 
+        arrayImage.push(URLimage['url']); 
+      }
+      return arrayImage
     }
-    return arrayImage
-  }
 
-  console.log(JSONImagesPars(count))
-
+  // initionImages['galleryImages']
+  const [count, setCount] = 
+  useState(JSONImagesPars(initionImages['galleryImages']));
+  
   return (
   <>
     <Head/>
-    <Main count={count} JSONImagesPars={JSONImagesPars}/>
+    <Main imagesPars={count}/>
   </>
   );
 }
