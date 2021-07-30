@@ -4,32 +4,19 @@ import { Line } from './Line';
 
 export function Main(props){
 
-  function lineConstructor() {
+  function lineConstructor(URLImage) {
     let counterId = 0;
-    let check = false;
-    let finishedImagesArray = [];
-    let lineArray = [];
-    let iLine;
+    let imagesReturn = []
     
-    for (const i in props.imagesPars){
-      counterId += 1;
-      lineArray.push(props.imagesPars[i]);
-      iLine = <Line listImages={lineArray}/>
-      setTimeout(() => {
-        let element1 = document.getElementById('111').offsetWidth;
-      } , 1)
-      console.log(element1);
+    for (const i in URLImage){
+      imagesReturn.push(<img src={URLImage[i]}/>);
     } 
-
-    return finishedImagesArray
-
-  
+    return imagesReturn
   };
-
-  lineConstructor();
-
+  
   return (
     <div className='main' id='111'>
+      {lineConstructor(props.imagesPars).map((i) => {return i})}
     </div>
   );
 }

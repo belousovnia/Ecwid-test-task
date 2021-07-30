@@ -21,7 +21,6 @@ function App() {
       return arrayImage
     }
 
-  // initionImages['galleryImages']
   const [count, setCount] = 
   useState(JSONImagesPars(initionImages['galleryImages']));
   
