@@ -9,9 +9,21 @@ export function Main(props){
     let imagesReturn = []
     
     for (const i in URLImage){
-      imagesReturn.push(<img src={URLImage[i]}/>);
+      imagesReturn.push(
+      <img 
+        src={URLImage[i]}
+        style={{
+          height: '300px',
+          width: 'auto',
+        }}
+        id={imagesReturn.length-1}
+      />);
     } 
-    return imagesReturn
+
+    for (let i=0; i < imagesReturn.length; i++){
+    }
+
+    return imagesReturn;
   };
   
   return (
