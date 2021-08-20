@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-.head{
+.head1{
   height: 60px;
   width: 100%;
   background-color: #0c8b08;
@@ -20,30 +20,34 @@ code {
 }
 
 .main{
-  
-  width: 100%;
+  width: auto;
   min-height: 960px;
-
   padding-top: 90px;
   padding-left: 40px;
   padding-right: 40px;
   padding-bottom: 40px;
-
+  
   background-color: #c9fbd4;
 
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  
 }
 
-.imageTile{
-  width: auto;
-  height: 100%;
-  margin: 10px;
+.photoBoard{
+  width: 100%;
+  height: auto;
+  background-color: rgb(255, 255, 255);
+  padding-left: 10px;
+
 }
 
 .line{
-  width: auto;
-  height: 180px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
+
+.imageTile{
+  margin-right: 10px;;
+}
+

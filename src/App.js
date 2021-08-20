@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-
 import { Head } from './components/Head';
-import { Main } from './components/Main';
+import { PhotoBoard } from './components/PhotoBoard';
 
 function App() {
   
@@ -19,15 +18,14 @@ function App() {
         arrayImage.push(URLimage['url']); 
       }
       return arrayImage
-    }
+  };
 
-  const [count, setCount] = 
-  useState(JSONImagesPars(initionImages['galleryImages']));
-  
   return (
   <>
     <Head/>
-    <Main imagesPars={count}/>
+    <div className='main' id='main'>
+      <PhotoBoard imagesPars={JSONImagesPars(initionImages['galleryImages'])}/>
+    </div>
   </>
   );
 }

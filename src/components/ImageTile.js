@@ -1,8 +1,13 @@
 import React from 'react';
 
 export function ImageTile(props){
-console.log(props.url);
   return (
-    <img className='imageTile' src={props.url} alt=""/>
+    <img 
+      className='imageTile' 
+      src={props.imagesParms.src} 
+      height={props.imagesParms.height} 
+      width={props.imagesParms.width} 
+      alt=""
+    />
   );
 }
