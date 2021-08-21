@@ -51,9 +51,14 @@ export function PhotoBoard(props){
     let lineImages = [];
     let steckImages = [];
     let lineWidth = 0;
+    let startWidth = 250;
+
+    if (fullWidth < 800){
+      startWidth = 150;
+    };
       
     for (let i=0; i < dataImages.length; i++){
-      dataImages[i].chancheHeight(300);
+      dataImages[i].chancheHeight(startWidth);
       steckImages.push(dataImages[i]);
       lineWidth = 0;
         
@@ -80,12 +85,16 @@ export function PhotoBoard(props){
         };
 
         for (let i=0; i < steckImages.length; i++){
-          steckImages[i].chancheHeight(300 + additionFactor - 0.5);
+          steckImages[i].chancheHeight(startWidth + additionFactor - 0.5);
           
         }
 
         lineImages.push(steckImages);
         steckImages = [extraImages];
+      };
+
+      if (i == dataImages.length - 1){
+        lineImages.push(steckImages);
       };
     };
 
