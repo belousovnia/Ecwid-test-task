@@ -12,11 +12,14 @@ code {
     monospace;
 }
 
+/* ---------------------------------------------------------------------------- */
+
 .head1{
   height: 60px;
   width: 100%;
   background-color: #0c8b08;
   position: fixed;
+  z-index: 1;
 }
 
 .main{
@@ -34,6 +37,8 @@ code {
   flex-wrap: wrap;
 }
 
+/* ---------------------------------------------------------------------------- */
+
 .photoBoard{
   width: 100%;
   height: auto;
@@ -45,11 +50,40 @@ code {
 .line{
   margin-top: 10px;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
-.imageTile{
-  margin-right: 10px;;
+/* ---------------------------------------------------------------------------- */
+
+.imageBox{
+  margin-right: 10px;
+  width: auto;
+  height: auto;
+  position: relative
 }
+
+.cross{
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  right: 10px;
+  top: 10px;
+  opacity: 0;
+}
+
+.cross:active{
+  height: 16px;
+  width: 16px;
+  border: 2px outset black;
+}
+
+.imageBox:hover .cross{
+  opacity: 0.5;
+}
+
+/* ---------------------------------------------------------------------------- */
 
 @media screen and (max-width: 1400px) and (min-width: 1200px){
   .main{

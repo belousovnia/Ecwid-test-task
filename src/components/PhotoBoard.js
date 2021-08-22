@@ -68,7 +68,8 @@ export function PhotoBoard(props){
 
       if (lineWidth >= fullWidth){
         
-        const changesWidth = fullWidth - (lineWidth - steckImages[steckImages.length - 1].width);
+        const changesWidth = fullWidth - (
+          lineWidth - steckImages[steckImages.length - 1].width);
         let extraImages = steckImages.pop();
         
         let sumRatio = 0;
@@ -77,7 +78,8 @@ export function PhotoBoard(props){
           sumRatio += steckImages[i].ratio;
         }
 
-        const additionFactor = (changesWidth - (steckImages.length + 1) * 10)  / sumRatio;
+        const additionFactor = (changesWidth - (
+          steckImages.length + 1) * 10)  / sumRatio;
         const checkWidth = additionFactor * steckImages.length + steckImages.length * 10 + 10
 
         while (checkWidth > fullWidth){
