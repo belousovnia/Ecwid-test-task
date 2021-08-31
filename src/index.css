@@ -14,27 +14,57 @@ code {
 
 /* ---------------------------------------------------------------------------- */
 
-.head1{
-  height: 60px;
+.head{
+  height: auto;
   width: 100%;
-  background-color: #0c8b08;
+  background-color: #222227;
   position: fixed;
   z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
+.headBlock1{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  padding-right: auto;
+  padding-left: auto;
+  min-width: 320px;
+  max-width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+}
+
+.headBlock1 > *{
+  margin-right: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.inputURL{
+  width: 300px;
+}
+
+/* ---------------------------------------------------------------------------- */
 
 .main{
   width: auto;
   min-height: 960px;
   padding-top: 90px;
-  padding-left: 300px;
-  padding-right: 300px;
   padding-bottom: 40px;
-  
-  background-color: #c9fbd4;
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  background-color: #414141;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 /* ---------------------------------------------------------------------------- */
@@ -42,13 +72,15 @@ code {
 .photoBoard{
   width: 100%;
   height: auto;
-  background-color: rgb(255, 255, 255);
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 860px;
+  min-width: 320px;
   padding-left: 10px;
-
 }
 
 .line{
-  margin-top: 10px;
+  width: auto;
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
@@ -85,16 +117,9 @@ code {
 
 /* ---------------------------------------------------------------------------- */
 
-@media screen and (max-width: 1400px) and (min-width: 1200px){
+@media screen and (max-width: 441px){
   .main{
-    padding-left: 200px;
-    padding-right: 200px;
-  }
-}
-
-@media screen and (max-width: 1200px){
-  .main{
-    padding-left: 40px;
-    padding-right: 40px;
-  }
+    padding-left: 0;
+    padding-right: 10px;
+  } 
 }

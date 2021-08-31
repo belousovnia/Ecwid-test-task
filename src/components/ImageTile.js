@@ -8,7 +8,8 @@ export function ImageTile(props){
       <img
         className='cross'
         src="icons-cross.png" 
-        alt="" 
+        alt=""
+        onClick={() => props.deleteImages(props.imagesParms.id)}
       />
       <img 
       className='image' 
