@@ -48,32 +48,30 @@ function App() {
 //---------------------------------------------------------------------------------------
   //  Принимает массив ссылок на изображения.Возвращает массив с 
   // объектами класса MyImages созданных из этик изображений.
-
-  let id = 0;
+  const [count, setCount] = useState([]);
 
   function parsNewImages(URLImage){
-    let tagImages = [];
-    let newParmsImages = [];
+    let q = [];
+    let id = 0;
 
     for (const i in URLImage){
       let a = new Image();
-      a.src = URLImage[i]; 
-      tagImages.push(a);
+      a.src = URLImage[i].url;
+      a.onload = () => {
+        let newMyImage = new MyImages(
+          a.src,
+          a.height,
+          a.width,
+          id
+        );
+        
+        console.log(q.concat(newMyImage));
+        setCount(count.concat(newMyImage));
+        id += 1;
+      }
     };
-  
-    for (let i=0; i < tagImages.length; i++){
-      newParmsImages[i] = new MyImages(
-        tagImages[i].src,
-        tagImages[i].height,
-        tagImages[i].width,
-        id
-      )
+  };
 
-      id += 1;
-    };
-    return newParmsImages
-  }
-  
 // --------------------------------------------------------------------------------------
   //  Принимает массив с объектами MyImages и строит на их основе линии с 
   // изображениями, восвращаемые в массиве.  
@@ -142,14 +140,16 @@ function App() {
 
   const requstImageURL = 'https://don16obqbay2c.cloudfront.net/frontend-test-task/gallery-images.json';
   const initionImages = requstJSON(requstImageURL);
+  useEffect(() => parsNewImages(initionImages['galleryImages']), [])
+  
 
   //  Раздел с хуками и работой с Dom
-
   const [countReaction, setCountReaction] = useState(0)
   const [countLine, setCountLine] = useState([]);
   const [countWidth, setCountWidth] = useState(0)
-  const [count, setCount] = useState(parsNewImages(
-    JSONImagesPars(initionImages['galleryImages'])));
+  // const [count, setCount] = useState([]);
+
+  console.log(count);
 
   function buildingImagesTile(arrMyImages, cWidth) {
     setCountLine(lineConstructor(arrMyImages, cWidth).map((i) => 
@@ -171,7 +171,6 @@ function App() {
   }
 
   window.addEventListener("resize", handleResize);
-
 
   //--------------------------------------------------------------------------- 
 
