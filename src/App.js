@@ -35,29 +35,30 @@ function App() {
   // с адресами изображений. 
 
   function JSONImagesPars(JSONImages) {
-    console.log(JSONImages);
-
+    
     let arrayImage = [];
+
     for (const key in JSONImages) {
-      let URLimage =  JSONImages[key]; 
+      let URLimage = JSONImages[key]; 
       arrayImage.push(URLimage['url']); 
-    }
+    };
+
     return arrayImage
   };
 
 //---------------------------------------------------------------------------------------
-  //  Принимает массив ссылок на изображения.Возвращает массив с 
-  // объектами класса MyImages созданных из этик изображений.
+  //  Принимает массив ссылок на изображения. Добавляет изображения на сайт.
   const [count, setCount] = useState([]);
 
-  function parsNewImages(URLImage){
-    let q = [];
-    let id = 0;
+  let id = 0;
 
+  function parsNewImages(URLImage){
+    console.log(URLImage);
+   
     for (const i in URLImage){
       let a = new Image();
-      a.src = URLImage[i].url;
-      a.onload = () => {
+      a.src = URLImage[i];
+      a.addEventListener("load", () => {
         let newMyImage = new MyImages(
           a.src,
           a.height,
@@ -65,13 +66,18 @@ function App() {
           id
         );
         
-        console.log(q.concat(newMyImage));
-        setCount(count.concat(newMyImage));
+        setCount(() => {
+          count.push(newMyImage)
+          return count
+        });
+        setCountReaction(countReaction + 1);
+
         id += 1;
-      }
+      });
     };
   };
 
+  
 // --------------------------------------------------------------------------------------
   //  Принимает массив с объектами MyImages и строит на их основе линии с 
   // изображениями, восвращаемые в массиве.  
@@ -135,19 +141,25 @@ function App() {
   };
 
   //-------------------------------------------------------------------------------------
-  
+  let key = 4000
+
+  function getNewKey() {
+    key += 1;
+    return key
+  }
+
+  //---------------------------------------------------------------------------
   //  Загруска начальных изображений. 
 
   const requstImageURL = 'https://don16obqbay2c.cloudfront.net/frontend-test-task/gallery-images.json';
-  const initionImages = requstJSON(requstImageURL);
-  useEffect(() => parsNewImages(initionImages['galleryImages']), [])
+  const initionImages = JSONImagesPars(requstJSON(requstImageURL)['galleryImages']);
+  useEffect(() => parsNewImages(initionImages), []);
   
 
   //  Раздел с хуками и работой с Dom
   const [countReaction, setCountReaction] = useState(0)
   const [countLine, setCountLine] = useState([]);
   const [countWidth, setCountWidth] = useState(0)
-  // const [count, setCount] = useState([]);
 
   console.log(count);
 
@@ -156,15 +168,16 @@ function App() {
     <Line
       line={i}
       deleteImages={deleteImages}
+      key={getNewKey()}
+      getNewKey={getNewKey}
      />))
   }
 
   useEffect(() => {
     console.log('effect');
-    console.log(count);
     setCountWidth(document.getElementById('photoBoard').clientWidth);
     buildingImagesTile(count, countWidth);
-  }, [countWidth, countReaction])
+  }, [countWidth, countReaction, count])
 
   function handleResize(){
     setCountWidth(document.getElementById('photoBoard').clientWidth)
@@ -190,14 +203,13 @@ function App() {
 
   function addNewImages(urlNewImages, optionAdd){
     if (optionAdd == 1){
-      const newImages = parsNewImages([urlNewImages]);
-      setCount(count.concat(newImages));
+      console.log('add 1');
+      parsNewImages([urlNewImages]);
 
     }else if (optionAdd == 2){
       const newArrUrl = requstJSON(urlNewImages);
       const newArrImages = JSONImagesPars(newArrUrl['galleryImages']);
-      const newImagesJSON = parsNewImages(newArrImages);
-      setCount(count.concat(newImagesJSON));
+      parsNewImages(newArrImages);
     }
 
     document.getElementById('inputURL').value = ''
@@ -210,10 +222,12 @@ function App() {
   <>
     <Head
       addNewImages={addNewImages}
+      key='2004'
     />
-    <div className='main' id='main'>
+    <div className='main' id='main' key='2005'>
       <PhotoBoard 
         countLine = {countLine}
+        key='2006'
       />
     </div>
   </>
