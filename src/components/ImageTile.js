@@ -1,17 +1,17 @@
 import React from 'react';
 
 export function ImageTile(props){
+  const controlKey = props.imagesParms.id;
+
   return (
     <div 
       className='imageBox'
-      key='2001'
     >
       <img
         className='cross'
         src="icons-cross.png" 
         alt=""
-        onClick={() => props.deleteImages(props.imagesParms.id)}
-        key='2000'
+        onClick={() => props.deleteImages(controlKey)}
       />
       <img 
       className='image' 
@@ -19,7 +19,6 @@ export function ImageTile(props){
       height={props.imagesParms.height} 
       width={props.imagesParms.width}
       alt=""
-      key={props.imagesParms.id}
       >
       </img>
     </div>

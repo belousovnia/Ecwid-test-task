@@ -9,7 +9,6 @@ export function Head(props){
           type="text" 
           className='inputURL' 
           id='inputURL'
-          key='2013'
         />
         
 
@@ -20,15 +19,13 @@ export function Head(props){
             document.getElementById('option').value,
             )
           }
-          key='2014'
-
         >
           Загрузить
         </button>
 
-        <select id='option' key='2015'>
-          <option value="1" key="2016">Image</option>
-          <option value="2" key="2017">JSON</option>
+        <select id='option'>
+          <option value="1">Image</option>
+          <option value="2">JSON</option>
         </select>
       </div>
     </div>

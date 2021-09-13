@@ -20,6 +20,24 @@ function App() {
     }
   }
 
+//-------------------------------------------------------------------------------------
+  
+function getRandomInt() {
+  const min = Math.ceil(1000000000);
+  const max = Math.floor(9999999999);
+  return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+}
+
+function* generationNewKey() {
+  let key = 4000;
+  while (true){
+    key += 1;
+    yield key
+  }
+}
+
+let getNewKey = generationNewKey()
+
 //-----------------------------------------------------------------------------
   // Принимает ссылку на JSON с фотографиями и возвращает их в виде объекта.
 
@@ -53,7 +71,6 @@ function App() {
   let id = 0;
 
   function parsNewImages(URLImage){
-    console.log(URLImage);
    
     for (const i in URLImage){
       let a = new Image();
@@ -63,7 +80,7 @@ function App() {
           a.src,
           a.height,
           a.width,
-          id
+          getRandomInt()
         );
         
         setCount(() => {
@@ -88,6 +105,7 @@ function App() {
     let steckImages = [];
     let lineWidth = 0;
     let startWidth = 200;
+    let checkPadding = 0;
 
     if (fullWidth < 800){
       startWidth = 150;
@@ -97,15 +115,19 @@ function App() {
       dataImages[i].chancheHeight(startWidth);
       steckImages.push(dataImages[i]);
       lineWidth = 0;
+      
         
       for (let i=0; i<steckImages.length; i++){
         lineWidth += steckImages[i].width;
+        checkPadding += 1
       };
 
-      if (lineWidth >= fullWidth){
+      if (lineWidth + checkPadding*10 >= fullWidth){
+
+        checkPadding = 0;
         
         const changesWidth = fullWidth - (
-          lineWidth - steckImages[steckImages.length - 1].width);
+          lineWidth - steckImages[steckImages.length - 1].width) ;
 
         let extraImages = steckImages.pop();
         let sumRatio = 0;
@@ -140,14 +162,6 @@ function App() {
     return lineImages   
   };
 
-  //-------------------------------------------------------------------------------------
-  let key = 4000
-
-  function getNewKey() {
-    key += 1;
-    return key
-  }
-
   //---------------------------------------------------------------------------
   //  Загруска начальных изображений. 
 
@@ -161,15 +175,13 @@ function App() {
   const [countLine, setCountLine] = useState([]);
   const [countWidth, setCountWidth] = useState(0)
 
-  console.log(count);
-
   function buildingImagesTile(arrMyImages, cWidth) {
     setCountLine(lineConstructor(arrMyImages, cWidth).map((i) => 
     <Line
       line={i}
       deleteImages={deleteImages}
-      key={getNewKey()}
-      getNewKey={getNewKey}
+      key={getNewKey.next().value}
+      getRandomInt={getRandomInt}
      />))
   }
 
@@ -222,12 +234,10 @@ function App() {
   <>
     <Head
       addNewImages={addNewImages}
-      key='2004'
     />
     <div className='main' id='main' key='2005'>
       <PhotoBoard 
         countLine = {countLine}
-        key='2006'
       />
     </div>
   </>

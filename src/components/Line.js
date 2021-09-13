@@ -8,7 +8,7 @@ export function Line(props){
         <ImageTile 
           imagesParms={i}
           deleteImages={props.deleteImages}
-          key={props.getNewKey()}
+          key={props.getRandomInt()}
         />)}
     </div>
   );
