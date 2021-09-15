@@ -19,7 +19,7 @@ code {
   width: 100%;
   background-color: #222227;
   position: fixed;
-  z-index: 1;
+  z-index: 3;
 
   display: flex;
   flex-direction: column;
@@ -77,6 +77,19 @@ code {
   max-width: 860px;
   min-width: 320px;
   padding-left: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+
+.dropZone{
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  z-index: -1;
 }
 
 .line{
@@ -93,7 +106,7 @@ code {
   margin-right: 10px;
   width: auto;
   height: auto;
-  position: relative
+  position: relative;
 }
 
 .cross{

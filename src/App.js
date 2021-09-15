@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from 'react';
 import { Head } from './components/Head';
 import { PhotoBoard } from './components/PhotoBoard';
-import { Line } from './components/Line'
+import { Line } from './components/Line';
+import { DropZone } from './components/DropZone';
 
 function App() {
 
@@ -68,9 +69,8 @@ let getNewKey = generationNewKey()
   //  Принимает массив ссылок на изображения. Добавляет изображения на сайт.
   const [count, setCount] = useState([]);
 
-  let id = 0;
-
   function parsNewImages(URLImage){
+    console.log('newImage');
    
     for (const i in URLImage){
       let a = new Image();
@@ -89,7 +89,6 @@ let getNewKey = generationNewKey()
         });
         setCountReaction(countReaction + 1);
 
-        id += 1;
       });
     };
   };
@@ -195,7 +194,7 @@ let getNewKey = generationNewKey()
     setCountWidth(document.getElementById('photoBoard').clientWidth)
   }
 
-  window.addEventListener("resize", handleResize);
+  window.addEventListener('resize', handleResize);
 
   //--------------------------------------------------------------------------- 
 
@@ -235,9 +234,13 @@ let getNewKey = generationNewKey()
     <Head
       addNewImages={addNewImages}
     />
-    <div className='main' id='main' key='2005'>
+    <div className='main' id='main'>
       <PhotoBoard 
         countLine = {countLine}
+        parsNewImages = {parsNewImages}
+        addNewImages = {addNewImages}
+        setCountReaction = {setCountReaction}
+        countReaction = {countReaction}
       />
     </div>
   </>
