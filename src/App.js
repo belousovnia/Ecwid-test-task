@@ -70,7 +70,6 @@ let getNewKey = generationNewKey()
   const [count, setCount] = useState([]);
 
   function parsNewImages(URLImage){
-    console.log('newImage');
    
     for (const i in URLImage){
       let a = new Image();
@@ -214,7 +213,6 @@ let getNewKey = generationNewKey()
 
   function addNewImages(urlNewImages, optionAdd){
     if (optionAdd == 1){
-      console.log('add 1');
       parsNewImages([urlNewImages]);
 
     }else if (optionAdd == 2){
