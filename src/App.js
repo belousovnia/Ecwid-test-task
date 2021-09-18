@@ -2,7 +2,6 @@ import React, { useState, useEffect} from 'react';
 import { Head } from './components/Head';
 import { PhotoBoard } from './components/PhotoBoard';
 import { Line } from './components/Line';
-import { DropZone } from './components/DropZone';
 
 function App() {
 
