@@ -8,3 +8,5 @@ https://don16obqbay2c.cloudfront.net/frontend-test-task/gallery-images.json
   3) Картинки можно удалять нажатием на крестик в ее углу.
 
 Запуск через npm start
+
+После запуска нужно обновить страницу.
