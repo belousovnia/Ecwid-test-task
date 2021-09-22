@@ -8,6 +8,7 @@ export function DropZone(props) {
       props.addNewImages(URL.createObjectURL(file), 1)
       props.setCountReaction(() => {return props.countReaction + 1})
     })
+    
   }
 
   const {

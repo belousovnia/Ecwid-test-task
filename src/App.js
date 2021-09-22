@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import { Head } from './components/Head';
 import { PhotoBoard } from './components/PhotoBoard';
 import { Line } from './components/Line';
@@ -18,25 +18,15 @@ function App() {
       this.height = newHeight;
       this.width = newHeight * this.ratio;
     }
-  }
+  };
 
 //-------------------------------------------------------------------------------------
   
 function getRandomInt() {
   const min = Math.ceil(1000000000);
   const max = Math.floor(9999999999);
-  return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
-}
-
-function* generationNewKey() {
-  let key = 4000;
-  while (true){
-    key += 1;
-    yield key
-  }
-}
-
-let getNewKey = generationNewKey()
+  return Math.floor(Math.random() * (max - min)) + min; 
+};
 
 //-----------------------------------------------------------------------------
   // Принимает ссылку на JSON с фотографиями и возвращает их в виде объекта.
@@ -80,14 +70,17 @@ let getNewKey = generationNewKey()
           a.width,
           getRandomInt()
         );
-        
-        setCount(() => {
-          count.push(newMyImage)
-          return count
-        });
-        setCountReaction(countReaction + 1);
 
+        let newImage = count;
+        newImage.push(newMyImage);
+        setCount(newImage);
+
+        buildingImagesTile(count, countWidth);
       });
+      a.addEventListener("error", () => {
+        alert('Произошла ошибка при загрузки изображения, пожалуйста проверьте ссылку');
+      });
+
     };
   };
 
@@ -177,23 +170,23 @@ let getNewKey = generationNewKey()
     <Line
       line={i}
       deleteImages={deleteImages}
-      key={getNewKey.next().value}
+      key={getRandomInt()}
       getRandomInt={getRandomInt}
      />))
-  }
+  };
 
   useEffect(() => {
-    console.log('effect');
     setCountWidth(document.getElementById('photoBoard').clientWidth);
     buildingImagesTile(count, countWidth);
-  }, [countWidth, countReaction, count])
+  }, [countWidth]);
 
   function handleResize(){
-    setCountWidth(document.getElementById('photoBoard').clientWidth)
-  }
+    setCountWidth(document.getElementById('photoBoard').clientWidth);
+  };
 
   window.addEventListener('resize', handleResize);
-
+  
+  console.log(count);
   //--------------------------------------------------------------------------- 
 
   function deleteImages(idDelete){
@@ -202,7 +195,7 @@ let getNewKey = generationNewKey()
       if (countCopyDelete[i].id == idDelete){
         countCopyDelete.splice(i, 1);
         setCount(countCopyDelete);
-        setCountReaction(countReaction + 1)
+        buildingImagesTile(count, countWidth);
         break;
       }
     }
@@ -213,15 +206,18 @@ let getNewKey = generationNewKey()
   function addNewImages(urlNewImages, optionAdd){
     if (optionAdd == 1){
       parsNewImages([urlNewImages]);
-
     }else if (optionAdd == 2){
-      const newArrUrl = requstJSON(urlNewImages);
+      try {
+        const newArrUrl = requstJSON(urlNewImages);
       const newArrImages = JSONImagesPars(newArrUrl['galleryImages']);
       parsNewImages(newArrImages);
-    }
+      } catch {
+        alert('Возникла ошибка при загрузки JSON файла, убедитесь что ссылка работает');
+      };
+      
+    };
 
-    document.getElementById('inputURL').value = ''
-    setCountReaction(countReaction + 1);
+    document.getElementById('inputURL').value = '';
   };
 
   // --------------------------------------------------------------------------
