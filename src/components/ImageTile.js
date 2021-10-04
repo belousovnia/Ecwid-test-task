@@ -1,26 +1,21 @@
-import React from 'react';
+import React, {useEffect, useContext} from 'react';
+import { Context } from './context';
+
 
 export function ImageTile(props){
-  const controlKey = props.imagesParms.id;
+  const openImage = useContext(Context);
 
   return (
     <div 
       className='imageBox'
     >
-      <img
-        className='cross'
-        src="icons-cross.png" 
-        alt=""
-        onClick={() => props.deleteImages(controlKey)}
-      />
       <img 
-      className='image' 
-      src={props.imagesParms.src} 
-      height={props.imagesParms.height} 
-      width={props.imagesParms.width}
-      alt=""
-      >
-      </img>
+        className='image' 
+        src={props.imagesParms.src} 
+        height={props.imagesParms.height} 
+        width={props.imagesParms.width}
+        onClick={() => openImage(props.imagesParms.src, props.imagesParms.id)}
+      />
     </div>
   );
 }

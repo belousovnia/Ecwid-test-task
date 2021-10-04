@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect} from 'react';
 import { Head } from './components/Head';
 import { PhotoBoard } from './components/PhotoBoard';
 import { Line } from './components/Line';
+import { ModalWindow } from './components/ModalWindow';
+import { Context } from './components/context';
 
 function App() {
+
 
   class MyImages {
     constructor(src, height, width, id){
@@ -18,18 +21,25 @@ function App() {
       this.height = newHeight;
       this.width = newHeight * this.ratio;
     }
+
+    chancheWidth(newWidth){
+      this.width = newWidth;
+      this.height = newWidth / this.ratio;
+    }
   };
 
 //-------------------------------------------------------------------------------------
-  
-function getRandomInt() {
-  const min = Math.ceil(1000000000);
-  const max = Math.floor(9999999999);
-  return Math.floor(Math.random() * (max - min)) + min; 
-};
+  // Генератор рандобного номена, ничего не принимает только возвращает рандомное число.
+
+
+  function getRandomInt() {
+    const min = Math.ceil(1000000000);
+    const max = Math.floor(9999999999);
+    return Math.floor(Math.random() * (max - min)) + min; 
+  };
 
 //-----------------------------------------------------------------------------
-  // Принимает ссылку на JSON с фотографиями и возвращает их в виде объекта.
+  //  Принимает ссылку на JSON с фотографиями и возвращает их в виде объекта.
 
   function requstJSON(urlJSON){
     const getImages = new XMLHttpRequest();
@@ -56,6 +66,7 @@ function getRandomInt() {
 
 //---------------------------------------------------------------------------------------
   //  Принимает массив ссылок на изображения. Добавляет изображения на сайт.
+
   const [count, setCount] = useState([]);
 
   function parsNewImages(URLImage){
@@ -74,7 +85,7 @@ function getRandomInt() {
         let newImage = count;
         newImage.push(newMyImage);
         setCount(newImage);
-
+        
         buildingImagesTile(count, countWidth);
       });
       a.addEventListener("error", () => {
@@ -91,11 +102,15 @@ function getRandomInt() {
 
   function lineConstructor(dataImages, fullWidth) {
 
+    if (fullWidth === 0){
+      fullWidth = document.getElementById('photoBoard').clientWidth;
+    };
+
     let lineImages = [];
     let steckImages = [];
     let lineWidth = 0;
     let startWidth = 200;
-    let checkPadding = 0;
+    let checkPadding = 1;
 
     if (fullWidth < 800){
       startWidth = 150;
@@ -114,26 +129,26 @@ function getRandomInt() {
 
       if (lineWidth + checkPadding*10 >= fullWidth){
 
-        checkPadding = 0;
+        checkPadding = 1;
         
         const changesWidth = fullWidth - (
-          lineWidth - steckImages[steckImages.length - 1].width) ;
+          lineWidth - steckImages[steckImages.length - 1].width);
 
         let extraImages = steckImages.pop();
         let sumRatio = 0;
 
         for (let i=0; i < steckImages.length; i++){
           sumRatio += steckImages[i].ratio;
-        }
+        };
 
-        const additionFactor = (changesWidth - (
+        let additionFactor = (changesWidth - (
           steckImages.length + 1) * 10)  / sumRatio;
 
-        const checkWidth = additionFactor * steckImages.length
-         + steckImages.length * 10 + 10
+        let checkWidth = additionFactor * steckImages.length
+         + steckImages.length * 10 + 10;
 
         while (checkWidth > fullWidth){
-          additionFactor -= 0.5
+          additionFactor -= 0.5;
         };
 
         for (let i=0; i < steckImages.length; i++){
@@ -144,7 +159,12 @@ function getRandomInt() {
         steckImages = [extraImages];
       };
 
-      if (i == dataImages.length - 1){
+      if (i === dataImages.length - 1){
+        if (steckImages.length === 1){
+          if (steckImages[0].width > fullWidth - 20){
+            steckImages[0].chancheWidth(fullWidth - 20);
+          }
+        }
         lineImages.push(steckImages);
       };
     };
@@ -161,9 +181,9 @@ function getRandomInt() {
   
 
   //  Раздел с хуками и работой с Dom
-  const [countReaction, setCountReaction] = useState(0)
+  const [countReaction, setCountReaction] = useState(0);
   const [countLine, setCountLine] = useState([]);
-  const [countWidth, setCountWidth] = useState(0)
+  const [countWidth, setCountWidth] = useState(0);
 
   function buildingImagesTile(arrMyImages, cWidth) {
     setCountLine(lineConstructor(arrMyImages, cWidth).map((i) => 
@@ -177,6 +197,10 @@ function getRandomInt() {
 
   useEffect(() => {
     setCountWidth(document.getElementById('photoBoard').clientWidth);
+  }, []);
+
+  useEffect(() => {
+    setCountWidth(document.getElementById('photoBoard').clientWidth);
     buildingImagesTile(count, countWidth);
   }, [countWidth]);
 
@@ -185,14 +209,13 @@ function getRandomInt() {
   };
 
   window.addEventListener('resize', handleResize);
-  
-  console.log(count);
   //--------------------------------------------------------------------------- 
+    // Удаляет элемент по индексу.
 
   function deleteImages(idDelete){
     let countCopyDelete = count;
     for (let i=0; i < countCopyDelete.length; i++){
-      if (countCopyDelete[i].id == idDelete){
+      if (countCopyDelete[i].id === idDelete){
         countCopyDelete.splice(i, 1);
         setCount(countCopyDelete);
         buildingImagesTile(count, countWidth);
@@ -202,11 +225,14 @@ function getRandomInt() {
   };
 
   // -------------------------------------------------------------------------- 
+  //  Добавляет новый элемент взависимости от optionAdd.
+  // При значении 1 добавляет по ссылке на картинку.
+  // При значении 2 добавляет из JSON как по ссылке в README.
 
   function addNewImages(urlNewImages, optionAdd){
-    if (optionAdd == 1){
+    if (optionAdd === 1){
       parsNewImages([urlNewImages]);
-    }else if (optionAdd == 2){
+    }else if (optionAdd === 2){
       try {
         const newArrUrl = requstJSON(urlNewImages);
       const newArrImages = JSONImagesPars(newArrUrl['galleryImages']);
@@ -221,9 +247,25 @@ function getRandomInt() {
   };
 
   // --------------------------------------------------------------------------
+  // Модальное окно.
+
+  const [countModal, setCountModal] = useState(
+    'https://images5.alphacoders.com/904/904708.jpg'
+  );
+  const [countIdImage, setCountIdImage] = useState();
+
+  function openImage(urlImageOpen, idImage){
+    setCountModal(urlImageOpen);
+    setCountIdImage(idImage);
+    document.getElementById('modalWindow').style.display = 'block'
+  };
+
+  // --------------------------------------------------------------------------
 
   return (
-  <>
+  <Context.Provider value={
+    openImage
+  }>
     <Head
       addNewImages={addNewImages}
     />
@@ -236,7 +278,8 @@ function getRandomInt() {
         countReaction = {countReaction}
       />
     </div>
-  </>
+    <ModalWindow src={countModal} deleteImages={deleteImages} idImage={countIdImage}/>
+  </Context.Provider>
   );
 }
 

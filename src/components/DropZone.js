@@ -8,8 +8,7 @@ export function DropZone(props) {
       props.addNewImages(URL.createObjectURL(file), 1)
       props.setCountReaction(() => {return props.countReaction + 1})
     })
-    
-  }
+  };
 
   const {
     getRootProps,
@@ -20,7 +19,15 @@ export function DropZone(props) {
   });
 
   return (
-    <div {...getRootProps()} className='dropZone' id='dropZone'>
+    <div {...getRootProps()} 
+      className='dropZone' 
+      id='dropZone'
+      onDragLeave={() => {
+        document.getElementById('dropZone').style.zIndex = '-1';
+        document.getElementById('dropZone').style.height = '0.1px';
+        document.getElementById('dropZone').style.width = '0.1px';
+      }}
+    >
       <input {...getInputProps()} />
     </div>
   )

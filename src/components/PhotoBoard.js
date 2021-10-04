@@ -12,18 +12,16 @@ export function PhotoBoard(props){
         document.getElementById('dropZone').style.height = '100%';
         document.getElementById('dropZone').style.width = '100%';
       }}
-      onDragLeave={() => {
-        document.getElementById('dropZone').style.zIndex = '-1';
-        document.getElementById('dropZone').style.height = '0.1px';
-        document.getElementById('dropZone').style.width = '0.1px';
-      }}
+      
       onDrop={() => {
         document.getElementById('dropZone').style.zIndex = '-1';
         document.getElementById('dropZone').style.height = '0.1px';
         document.getElementById('dropZone').style.width = '0.1px';
       }}
     >
+      
       {props.countLine}
+
       <DropZone 
         parsNewImages = {props.parsNewImages}
         addNewImages = {props.addNewImages}
