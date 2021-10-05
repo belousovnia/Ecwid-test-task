@@ -7,7 +7,10 @@ export function ModalWindow(props){
     <div
       className='modalWindow'
       id='modalWindow'
-      onClick={() => {document.getElementById('modalWindow').style.display = 'none'}}
+      onClick={() => {
+        document.getElementById('modalWindow').style.display = 'none';
+        props.changeModalImg('');
+      }}
     >
       <div className='modalContainer'>
         <img className='modalImage' src={props.src}/>

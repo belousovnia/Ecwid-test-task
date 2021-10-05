@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { Head } from './components/Head';
 import { PhotoBoard } from './components/PhotoBoard';
 import { Line } from './components/Line';
@@ -17,29 +17,28 @@ function App() {
       this.id = id;
     }
 
-    chancheHeight(newHeight){
+    changeHidth(newHeight){
       this.height = newHeight;
       this.width = newHeight * this.ratio;
     }
 
-    chancheWidth(newWidth){
+    changeWidth (newWidth){
       this.width = newWidth;
       this.height = newWidth / this.ratio;
     }
   };
 
 //-------------------------------------------------------------------------------------
-  // Генератор рандобного номена, ничего не принимает только возвращает рандомное число.
-
+  // Генератор нового id.
+  const countNewId = useRef(0)
 
   function getRandomInt() {
-    const min = Math.ceil(1000000000);
-    const max = Math.floor(9999999999);
-    return Math.floor(Math.random() * (max - min)) + min; 
+    countNewId.current++
+    return countNewId.current
   };
 
 //-----------------------------------------------------------------------------
-  //  Принимает ссылку на JSON с фотографиями и возвращает их в виде объекта.
+  //  Принимает ссылку на JSON с фотографиями и возвращает его.
 
   function requstJSON(urlJSON){
     const getImages = new XMLHttpRequest();
@@ -117,7 +116,7 @@ function App() {
     };
       
     for (let i=0; i < dataImages.length; i++){
-      dataImages[i].chancheHeight(startWidth);
+      dataImages[i].changeHidth(startWidth);
       steckImages.push(dataImages[i]);
       lineWidth = 0;
       
@@ -152,7 +151,7 @@ function App() {
         };
 
         for (let i=0; i < steckImages.length; i++){
-          steckImages[i].chancheHeight(startWidth + additionFactor - 0.5);
+          steckImages[i].changeHidth(startWidth + additionFactor - 0.5);
         }
 
         lineImages.push(steckImages);
@@ -162,7 +161,7 @@ function App() {
       if (i === dataImages.length - 1){
         if (steckImages.length === 1){
           if (steckImages[0].width > fullWidth - 20){
-            steckImages[0].chancheWidth(fullWidth - 20);
+            steckImages[0].changeWidth (fullWidth - 20);
           }
         }
         lineImages.push(steckImages);
@@ -197,10 +196,6 @@ function App() {
 
   useEffect(() => {
     setCountWidth(document.getElementById('photoBoard').clientWidth);
-  }, []);
-
-  useEffect(() => {
-    setCountWidth(document.getElementById('photoBoard').clientWidth);
     buildingImagesTile(count, countWidth);
   }, [countWidth]);
 
@@ -230,9 +225,14 @@ function App() {
   // При значении 2 добавляет из JSON как по ссылке в README.
 
   function addNewImages(urlNewImages, optionAdd){
-    if (optionAdd === 1){
+    console.log(urlNewImages);
+    console.log(optionAdd);
+    console.log('load');
+    if (optionAdd == 1){
+      console.log('1');
       parsNewImages([urlNewImages]);
-    }else if (optionAdd === 2){
+    }else if (optionAdd == 2){
+      console.log('2');
       try {
         const newArrUrl = requstJSON(urlNewImages);
       const newArrImages = JSONImagesPars(newArrUrl['galleryImages']);
@@ -246,18 +246,24 @@ function App() {
     document.getElementById('inputURL').value = '';
   };
 
+  console.log(count);
+
   // --------------------------------------------------------------------------
   // Модальное окно.
 
-  const [countModal, setCountModal] = useState(
-    'https://images5.alphacoders.com/904/904708.jpg'
-  );
+  const [countModal, setCountModal] = useState('');
   const [countIdImage, setCountIdImage] = useState();
 
+  // Откывает модальное окно с изображением.
   function openImage(urlImageOpen, idImage){
     setCountModal(urlImageOpen);
     setCountIdImage(idImage);
     document.getElementById('modalWindow').style.display = 'block'
+  };
+
+  // Меняет изображение в модальном окне.
+  function changeModalImg(newModalImg){
+    setCountModal(newModalImg);
   };
 
   // --------------------------------------------------------------------------
@@ -274,11 +280,15 @@ function App() {
         countLine = {countLine}
         parsNewImages = {parsNewImages}
         addNewImages = {addNewImages}
-        setCountReaction = {setCountReaction}
-        countReaction = {countReaction}
       />
     </div>
-    <ModalWindow src={countModal} deleteImages={deleteImages} idImage={countIdImage}/>
+    <ModalWindow 
+      src={countModal} 
+      setCountModal={setCountModal}
+      deleteImages={deleteImages} 
+      idImage={countIdImage}
+      changeModalImg={changeModalImg}
+      />
   </Context.Provider>
   );
 }

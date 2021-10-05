@@ -1,12 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useDropzone } from 'react-dropzone';
 
 export function DropZone(props) {
 
   const onDrop = acceptedFiles => {
     acceptedFiles.map(file => {
-      props.addNewImages(URL.createObjectURL(file), 1)
-      props.setCountReaction(() => {return props.countReaction + 1})
+      props.addNewImages(URL.createObjectURL(file), 1);
     })
   };
 

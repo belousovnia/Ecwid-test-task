@@ -16,7 +16,7 @@ export function Head(props){
           className='battonDownload' 
           onClick={() => props.addNewImages(
             document.getElementById('inputURL').value,
-            document.getElementById('option').value,
+            document.getElementById('option').value
             )
           }
         >
