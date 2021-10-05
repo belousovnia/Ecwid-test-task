@@ -7,7 +7,6 @@ import { Context } from './components/context';
 
 function App() {
 
-
   class MyImages {
     constructor(src, height, width, id){
       this.src = src;
