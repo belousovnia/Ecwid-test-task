@@ -8,4 +8,4 @@ https://don16obqbay2c.cloudfront.net/frontend-test-task/gallery-images.json
   3) Картинки можно увеличить нажав на них.
   4) Можно удалить изображение после его увеличения нажав на корзину. 
 
-Запуск через npm start
+  Проект написан на React.

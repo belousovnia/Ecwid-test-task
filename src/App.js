@@ -7,7 +7,6 @@ import { Context } from './components/context';
 
 function App() {
 
-
   class MyImages {
     constructor(src, height, width, id){
       this.src = src;
@@ -97,7 +96,7 @@ function App() {
   
 // --------------------------------------------------------------------------------------
   //  Принимает массив с объектами MyImages и строит на их основе линии с 
-  // изображениями, восвращаемые в массиве.  
+  // изображениями, возвращаемые в массиве.  
 
   function lineConstructor(dataImages, fullWidth) {
 
@@ -123,7 +122,7 @@ function App() {
         
       for (let i=0; i<steckImages.length; i++){
         lineWidth += steckImages[i].width;
-        checkPadding += 1
+        checkPadding += 1;
       };
 
       if (lineWidth + checkPadding*10 >= fullWidth){
@@ -162,8 +161,8 @@ function App() {
         if (steckImages.length === 1){
           if (steckImages[0].width > fullWidth - 20){
             steckImages[0].changeWidth (fullWidth - 20);
-          }
-        }
+          };
+        };
         lineImages.push(steckImages);
       };
     };
