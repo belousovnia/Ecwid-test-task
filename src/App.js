@@ -245,8 +245,6 @@ function App() {
     document.getElementById('inputURL').value = '';
   };
 
-  console.log(count);
-
   // --------------------------------------------------------------------------
   // Модальное окно.
 
